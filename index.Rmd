@@ -1,0 +1,55 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=true}
+library(flexdashboard)
+library(Lahman)
+library(sqldf)
+library(ggplot2)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### NY Yankee Team Homerun Totals Through The Years
+
+```{r}
+# extraing the data------------------------
+
+query<-"SELECT yearID,HR
+FROM Teams
+WHERE teamID='NYA'"
+
+result<-sqldf(query)
+
+#visualize the data------------------------
+
+ggplot()+
+  geom_point(data=result,aes(x=yearID,y=HR),color="red")+
+  geom_line(data=result,aes(x=yearID,y=HR),color="blue")+
+  xlab('Year')+
+  ylab('Homeruns')
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### NY Yankee Season Homerun Distribution
+
+```{r}
+ggplot()+
+  geom_histogram(data=result,aes(x=HR),color="blue",fill="white",bins=15)+
+  xlab("Homeruns")
+```
+
+### Chart C
+
+```{r}
+
+```
+
